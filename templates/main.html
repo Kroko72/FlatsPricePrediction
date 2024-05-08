@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+<!--    <img src="https://raw.githubusercontent.com/Kroko72/MoscowFlatsPricePrediction/main/istock.jpg" width="100%" height="50%" style="position: relative; left:0 z-index:-5">-->
+    <h2 style="float: left;">Укажите параметры квартиры:</h2>
+    <div class="dropdown" style="float: right">
+        <button class="btn btn-outline-dark btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="top: 10px; position: relative">
+            Что это?
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <p class="fw-medium" style="left: 5px; position: relative">Указав эти параметры, вы получите более точную оценку</p>
+            </li>
+        </ul>
+    </div>
+    <h2 style="float: right;">Дополнительные параметры: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</h2>
+    <br><br><br>
+</div>
+<div>
+    <form method="post" action="/result">
+        <div class="input-group mb-4">
+            <div class="input-group" style="width: 45%; float: left">
+                <label class="input-group-text" for="cityForm">Город: &nbsp&nbsp&nbsp&nbsp</label>
+                <select class="form-select" id="cityForm" name="city">
+                    <option value="Москва">Москва</option>
+                    <option value="Санкт-Петербург">Санкт-Петербург</option>
+                </select>
+            </div>
+            <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                <label class="input-group-text" for="floorsForm">Этажей в доме:&nbsp&nbsp</label>
+                <select class="form-select" id="floorsForm" name="floors_count">
+                    <option selected>10</option>
+                    {% for floor in range(1, 101)%}
+                        <option value={{floor}}>{{floor}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="input-group mb-4">
+            <div class="input-group" style="width: 45%; float: left">
+                <span class="input-group-text" id="streetForm">Улица: &nbsp&nbsp&nbsp&nbsp</span>
+                <input type="text" class="form-control" name="street" required>
+                <span class="input-group-text" id="houseForm">Дом: </span>
+                <input type="text" class="form-control" name="house" required>
+            </div>
+            <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                <span class="input-group-text" id="kitchen_metrForm">Площадь кухни:&nbsp</span>
+                <input type="text" class="form-control" name="kitchen_metr">
+                <span class="input-group-text">квадратных метров</span>
+            </div>
+        </div>
+        <div class="input-group mb-4">
+            <div class="input-group" style="width: 45%; float: left">
+                <span class="input-group-text" id="districtForm">Район: &nbsp&nbsp&nbsp&nbsp</span>
+                <input type="text" class="form-control" name="district" required>
+            </div>
+            <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                <span class="input-group-text" id="living_metrForm">Жилая площадь:</span>
+                <input type="text" class="form-control" name="living_metr">
+                <span class="input-group-text">квадратных метров</span>
+            </div>
+        </div>
+        <div class="input-group mb-4">
+            <div class="input-group" style="width: 45%; float: left">
+                <label class="input-group-text" for="floorForm">Этаж: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                <select class="form-select" id="floorForm" name="floor">
+                    {% for floor in range(1, 101)%}
+                    <option value={{floor}}>{{floor}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                <label class="input-group-text" for="year_of_constructionForm">Год постройки: &nbsp</label>
+                <select class="form-select" id="year_of_constructionForm" name="year_of_construction">
+                    {% for year in range(2024, 1899, -1)%}
+                        <option value={{year}}>{{year}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="input-group mb-4" style="width: 45%">
+            <label class="input-group-text" for="roomsForm">Комнат: &nbsp&nbsp</label>
+            <select class="form-select" id="roomsForm" name="rooms">
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5>5+</option>
+            </select>
+        </div>
+        <div class="input-group mb-4" style="width: 45%">
+            <span class="input-group-text" id="total_metersForm">Площадь:</span>
+            <input type="text" class="form-control" name="total_meters" required>
+            <span class="input-group-text">квадратных метров</span>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Рассчитать">
+    </form>
+</div>
+<br><br>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <h2 id="how">Как это рассчитывается?</h2>
+</div>
+<br>
+<p class="fs-4">
+    &nbsp&nbsp&nbsp&nbsp&nbspМы собрали данные с более чем 200 тысяч объявлений с сайта Циан, после чего изучили и
+    обработали их, чтобы обучить искусственный интеллект предсказывать цену наиболее точно.<br>
+</p>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <img src="https://raw.githubusercontent.com/Kroko72/MoscowFlatsPricePrediction/main/method%20(1).png" width="50%">
+</div>
+<br>
+<p class="fs-4">
+    &nbsp&nbsp&nbsp&nbsp&nbspМы подбираем и сравниваем похожие объявления в домах поблизости, дорабатываем оценку с учётом десятков параметров:
+    этаж, площадь и другие, уточняем оценку на основе актуального тренда цен на рынке и выдаём достоверный результат.
+</p>
+{% endblock %}

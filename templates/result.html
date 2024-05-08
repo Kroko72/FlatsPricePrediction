@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h2 style="float: left;">Укажите параметры квартиры:</h2>
+    <div class="dropdown" style="float: right">
+        <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="top: 10px; position: relative">
+            Что это?
+        </button>
+        <ul class="dropdown-menu">
+            <li>
+                <p class="fw-medium" style="left: 5px; position: relative">Указав эти параметры, вы получите более точную оценку</p>
+            </li>
+        </ul>
+    </div>
+    <h2 style="float: right;">Дополнительные параметры: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</h2>
+    <br><br><br>
+</div>
+<div>
+    <form method="get" action="/">
+        <fieldset disabled="disabled">
+            <div class="input-group mb-4">
+                <div class="input-group" style="width: 45%; float: left">
+                    <label class="input-group-text" for="cityForm">Город: &nbsp&nbsp&nbsp&nbsp</label>
+                    <select class="form-select" id="cityForm" name="city">
+                        <option selected>{{city}}</option>
+                    </select>
+                </div>
+                <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                    <label class="input-group-text" for="floorsForm">Этажей в доме:&nbsp&nbsp</label>
+                    <select class="form-select" id="floorsForm" name="floors_count">
+                        <option selected>{{floor if floor >= floors_count else floors_count}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group mb-4">
+                <div class="input-group" style="width: 45%; float: left">
+                    <span class="input-group-text" id="streetForm">Улица: &nbsp&nbsp&nbsp&nbsp</span>
+                    <input type="text" class="form-control" name="street" placeholder="{{street}}" required>
+                    <span class="input-group-text" id="houseForm">Дом: </span>
+                    <input type="text" class="form-control" name="house" placeholder="{{house}}" required>
+                </div>
+                <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                    <span class="input-group-text" id="kitchen_metrForm">Площадь кухни:&nbsp</span>
+                    <input type="text" class="form-control" name="kitchen_metr" placeholder='{{kitchen_metr if kitchen_metr != -1 else "Не указано"}}'>
+                    <span class="input-group-text">квадратных метров</span>
+                </div>
+            </div>
+            <div class="input-group mb-4">
+                <div class="input-group" style="width: 45%; float: left">
+                    <span class="input-group-text" id="districtForm">Район: &nbsp&nbsp&nbsp&nbsp</span>
+                    <input type="text" class="form-control" name="district" required placeholder={{district}}>
+                </div>
+                <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                    <span class="input-group-text" id="living_metrForm">Жилая площадь:</span>
+                    <input type="text" class="form-control" name="living_metr" placeholder='{{living_metr if living_metr != -1 else "Не указано"}}'>
+                    <span class="input-group-text">квадратных метров</span>
+                </div>
+            </div>
+            <div class="input-group mb-4">
+                <div class="input-group" style="width: 45%; float: left">
+                    <label class="input-group-text" for="floorForm">Этаж: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                    <select class="form-select" id="floorForm" name="floor">
+                        <option selected>{{floor}}</option>
+                    </select>
+                </div>
+                <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
+                    <label class="input-group-text" for="year_of_constructionForm">Год постройки: &nbsp</label>
+                    <select class="form-select" id="year_of_constructionForm" name="year_of_construction">
+                        <option selected>{{year_of_construction}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group mb-4" style="width: 45%">
+                <label class="input-group-text" for="roomsForm">Комнат: &nbsp&nbsp</label>
+                <select class="form-select" id="roomsForm" name="rooms">
+                    <option selected>{{rooms}}</option>
+                </select>
+            </div>
+            <div class="input-group mb-4" style="width: 45%">
+                <span class="input-group-text" id="total_metersForm">Площадь:</span>
+                <input type="text" class="form-control" name="total_meters" placeholder={{total_meters}} required>
+                <span class="input-group-text">квадратных метров</span>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<br>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <i class="fa-solid fa-tag fa-5x" style="transform:scaleX(-1)"></i>
+    <span>
+        <span class="h3"><strong>&nbsp{{prediction}} млн</strong></span> <i class="fa-solid fa-ruble-sign fa-2x"></i><br>
+        <span class="h6 small text-secondary">&nbspСредняя оценка</span>
+    </span>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    <i class="fa-solid fa-chart-simple fa-5x"></i>
+    <span>
+        <span class="h3"><strong>&nbsp{{prediction_range1}} - {{prediction_range2}} млн</strong></span> <i class="fa-solid fa-ruble-sign fa-2x"></i><br>
+        <span class="h6 small text-secondary">&nbsp&nbspДиапазон оценки</span>
+    </span>
+</div>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <span class="small text-secondary">
+        Рассчитали, используя цены сделок и похожие объявления.
+        <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="/#how">
+            О методике расчёта.
+        </a>
+    </span>
+</div>
+{% endblock %}
