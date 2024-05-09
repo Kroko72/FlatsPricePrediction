@@ -84,7 +84,7 @@ class MoscowModel:
         print('R2:', r2_score(y_test, self.model.predict(X_test)))
 
     def distance_to_centre(self, address: str) -> float:
-        lo, la = map(float, requests.get(f"https://geocode-maps.yandex.ru/1.x/?apikey=e28e8807-9870-4b03-8461-20d60bdd95d3&geocode=Москва {address}&format=json").json()["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]['pos'].split())
+        lo, la = map(float, requests.get(f"https://geocode-maps.yandex.ru/1.x/?apikey=KEY&geocode=Москва {address}&format=json").json()["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]['pos'].split())
         d = distance(la, 55.755863, lo, 37.617700)
         return d
 
