@@ -41,8 +41,8 @@
                     <input type="text" class="form-control" name="house" placeholder="{{house}}" required>
                 </div>
                 <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
-                    <span class="input-group-text" id="kitchen_metrForm">Площадь кухни:&nbsp</span>
-                    <input type="text" class="form-control" name="kitchen_metr" placeholder='{{kitchen_metr if kitchen_metr != -1 else "Не указано"}}'>
+                    <span class="input-group-text" id="kitchen_squareForm">Площадь кухни:&nbsp</span>
+                    <input type="text" class="form-control" name="kitchen_square" placeholder='{{kitchen_square if kitchen_square != -1 else "Не указано"}}'>
                     <span class="input-group-text">квадратных метров</span>
                 </div>
             </div>
@@ -52,8 +52,8 @@
                     <input type="text" class="form-control" name="district" required placeholder={{district}}>
                 </div>
                 <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
-                    <span class="input-group-text" id="living_metrForm">Жилая площадь:</span>
-                    <input type="text" class="form-control" name="living_metr" placeholder='{{living_metr if living_metr != -1 else "Не указано"}}'>
+                    <span class="input-group-text" id="living_squareForm">Жилая площадь:</span>
+                    <input type="text" class="form-control" name="living_square" placeholder='{{living_square if living_square != -1 else "Не указано"}}'>
                     <span class="input-group-text">квадратных метров</span>
                 </div>
             </div>
@@ -78,8 +78,8 @@
                 </select>
             </div>
             <div class="input-group mb-4" style="width: 45%">
-                <span class="input-group-text" id="total_metersForm">Площадь:</span>
-                <input type="text" class="form-control" name="total_meters" placeholder={{total_meters}} required>
+                <span class="input-group-text" id="total_squareForm">Площадь:</span>
+                <input type="text" class="form-control" name="total_square" placeholder={{total_square}} required>
                 <span class="input-group-text">квадратных метров</span>
             </div>
         </fieldset>

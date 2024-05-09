@@ -9,6 +9,7 @@ from .const import MOSCOW_METRO_DISTANCES, MOSCOW_DISTRICTS
 from math import radians, cos, sin, asin, sqrt  # needed for calculate distance
 
 
+# todo db instead of self.was
 # Function to calculate distance between two points
 def distance(lat1: float, lat2: float, lon1: float, lon2: float) -> float:
     lon1 = radians(lon1)
@@ -26,6 +27,7 @@ def distance(lat1: float, lat2: float, lon1: float, lon2: float) -> float:
 class MoscowModel:
     def __init__(self) -> None:
         pd.options.mode.chained_assignment = None
+        self.was = dict()
         self.model = RandomForestRegressor(n_estimators=177, min_samples_split=6, min_samples_leaf=16, max_depth=21,
                                            n_jobs=-1)  # parameters from moscow flats price prediction project
 
@@ -40,6 +42,7 @@ class MoscowModel:
         df["price"] = np.log2(df['price'])
         df = df[df.price > 15.0]
 
+        df["district"] = df["district"].str.lower()
         label_encoder = preprocessing.LabelEncoder()
         label_encoder.fit(df["district"])
         self.disctrict_name_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
@@ -49,6 +52,7 @@ class MoscowModel:
         df["district"].iloc[0] = 52.0
         df["district"] = df["district"].round(0).astype(int)
 
+        df["street"] = df["street"].str.lower()
         label_encoder = preprocessing.LabelEncoder()
         label_encoder.fit(df["street"])
         self.street_name_mapping = dict(zip(label_encoder.classes_, label_encoder.transform(label_encoder.classes_)))
@@ -87,12 +91,23 @@ class MoscowModel:
     def calculate(self, floors_count: int, floor: int, street: str, house: str, district: str,
                   year_of_construction: int, living_metr: float, kitchen_metr: float, total_meters: float,
                   rooms_count: int) -> float:
+        street = street.lower()
+        district = district.lower()
+        house = house.lower()
+        data = f"{floors_count},{floor},{street},{house},{district},{year_of_construction},{living_metr},{kitchen_metr},{total_meters},{rooms_count}"
+        if data in self.was:
+            return self.was[data]
+
         # Check that we have this street in dictionary
         try:
             street_number = self.street_name_mapping[street]
         except KeyError:
             street_number = max(self.street_name_mapping.values()) + 1  # is it ok?
+            self.street_name_mapping[street] = street_number
+
         X_flat = [[kitchen_metr, living_metr, year_of_construction, floor, floors_count,
                    rooms_count, total_meters, MOSCOW_DISTRICTS[district.lower()],
-                   street_number, self.distance_to_centre(f"{street}, {house}")]]
-        return int(2**self.model.predict(X_flat)[0])
+                   street_number, self.distance_to_centre(f"{street.lower()}, {house}")]]
+        self.was[data] = int(2**self.model.predict(X_flat)[0])
+
+        return self.was[data]

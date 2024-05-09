@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center;">
+    <h2>API</h2>
+</div>
+<br>
+<p class="fs-4" id="request">
+    &nbsp&nbsp&nbsp&nbsp&nbspВы можете воспользоваться сервисом с помощью API.<br><br>
+    Для этого выполните GET запрос формата:
+</p>
+<pre>
+<code class="language-html">https://estatepricecalc/v1
+  ? city=&ltstring&gt
+  & street=&ltstring&gt
+  & house=&ltstring&gt
+  & district=&ltstring&gt
+  & floor=&ltinteger&gt
+  & rooms=&ltinteger&gt
+  & total_square=&ltfloat&gt
+  & [floors_count=&ltinteger&gt]
+  & [kitchen_square=&ltfloat&gt]
+  & [living_square=&ltfloat&gt]
+  & [year_of_construction=&ltinteger&gt]</code>
+</pre>
+<p class="fs-4" id="parameters">Параметры:</p>
+<table class="table table-dark table-striped table-bordered">
+  <tbody>
+    <tr>
+      <td>city</td>
+      <td>
+          <i>Обязательный параметр</i><br><br>
+          Город: Москва или Санкт-Петербург. <br>
+          ВАЖНО: записывайте полное и правильное название города.<br>
+          Запрос со значением параметра city, например, "Питер", вызовет ошибку.
+      </td>
+    </tr>
+    <tr>
+      <td>street</td>
+      <td>
+          <i>Обязательный параметр</i><br><br>
+          Улица
+      </td>
+    </tr>
+    <tr>
+      <td>house</td>
+      <td>
+          <i>Обязательный параметр</i><br><br>
+          Номер дома
+      </td>
+    </tr>
+    <tr>
+      <td>district</td>
+      <td>
+          <i>Обязательный параметр</i><br><br>
+          Район
+      </td>
+    </tr>
+    <tr>
+      <td>floor</td>
+      <td>
+          <i>Обязательный параметр</i><br><br>
+          Этаж: целое число
+      </td>
+    </tr>
+    <tr>
+      <td>rooms</td>
+      <td>
+          <i>Обязательный параметр</i><br><br>
+          Количество комнат: целое число >= 1
+      </td>
+    </tr>
+    <tr>
+      <td>total_square</td>
+      <td>
+          <i>Обязательный параметр</i><br><br>
+          Площадь в квадратных метрах: число с точкой > 0
+      </td>
+    </tr>
+    <tr>
+      <td>floors_count</td>
+      <td>
+          Количество этажей в доме: целое число >= 1
+      </td>
+    </tr>
+    <tr>
+      <td>kitchen_square</td>
+      <td>
+          Площадь кухни в квадратных метрах: число с точкой > 0
+      </td>
+    </tr>
+    <tr>
+      <td>living_square</td>
+      <td>
+          Жилая площадь в квадратных метрах: число с точкой > 0
+      </td>
+    </tr>
+    <tr>
+      <td>year_of_construction</td>
+      <td>
+          Год постройки дома: целое число >= 1700
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p class="fs-4" id="response">Формат ответа, если не возникло ошибки:</p>
+<pre>
+<code class="language-html">{"result": &ltfloat&gt}</code>
+</pre>
+<br>
+<p class="fs-4" id="errors">Сообщения об ошибках:</p>
+<table class="table table-dark table-striped table-bordered">
+  <tbody>
+    <tr>
+      <td>400</td>
+      <td>
+          В запросе указан неподдерживаемый город или некорректное значение (например floors_count <= 0) параметра.<br>
+          Сообщение содержит дополнительную информацию об ошибке.<br>
+          Пример:<pre><code class="language-json">{"result": -1, "error": 400, "reason": "Unsupported city"}</code></pre>
+      </td>
+    </tr>
+    <tr>
+      <td>Другие ошибки</td>
+      <td>
+          Запросы с недостающим обязательным параметром или неверным типом данных параметра также выбрасывают ошибку.<br>
+          Ответ на запросы с такими ошибками имеет вид:<br>
+          Пример:<pre><code class="language-json">{"detail": [детали ошибки]}</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
