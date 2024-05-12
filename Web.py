@@ -1,12 +1,13 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from typing import Annotated
-from .models import MoscowModel
+from .models import MoscowModel, PeterModel
 
 
 app = FastAPI()
 templates = Jinja2Templates(directory="RealEstateCostCalculator/templates")
 moscow_prediction_model = MoscowModel()
+peter_prediction_model = PeterModel()
 
 
 @app.get("/")
@@ -16,12 +17,13 @@ async def main(request: Request):
     )
 
 
-@app.post("/result")  # TODO среднее значение необязательных параметров чтобы поставить их в default
+@app.post("/result")
 async def result(request: Request, city: Annotated[str, Form()], floors_count: Annotated[int, Form()],
                  street: Annotated[str, Form()], house: Annotated[str, Form()], district: Annotated[str, Form()],
                  floor: Annotated[int, Form()], year_of_construction: Annotated[int, Form()],
                  rooms: Annotated[int, Form()], total_square: Annotated[float, Form()],
                  kitchen_square: Annotated[float, Form()] = -1, living_square: Annotated[float, Form()] = -1):
+    city = city.lower()
     street = street.lower()
     house = house.lower()
     district = district.lower()
@@ -31,11 +33,16 @@ async def result(request: Request, city: Annotated[str, Form()], floors_count: A
     if kitchen_square == -1:
         avg_kitchen_square = 0.2 * total_square
 
-    prediction = moscow_prediction_model.calculate(
-        floors_count, floor, street, house, district, year_of_construction,
-        avg_living_square, avg_kitchen_square, total_square, rooms
-    )
-
+    if city == "москва":
+        prediction = moscow_prediction_model.calculate(
+            floors_count, floor, street, house, district, year_of_construction,
+            avg_living_square, avg_kitchen_square, total_square, rooms
+        )
+    elif city == "санкт-петербург":
+        prediction = peter_prediction_model.calculate(
+            floors_count, floor, street, house, district, year_of_construction,
+            avg_living_square, avg_kitchen_square, total_square, rooms
+        ) * 1.5
     prediction1 = round(prediction / 10**6, 1)
     prediction_range1 = round(prediction * 0.93 / 10 ** 6, 1)
     prediction_range2 = round(prediction * 1.07 / 10 ** 6, 1)
@@ -93,10 +100,19 @@ async def v1(request: Request, city: str, street: str, house: str, district: str
             floors_count, floor, street, house, district, year_of_construction, living_square, kitchen_square,
             total_square, rooms
         )
-    # todo питер
+    elif city == "санкт-петербург":
+        prediction = peter_prediction_model.calculate(
+            floors_count, floor, street, house, district, year_of_construction, living_square, kitchen_square,
+            total_square, rooms
+        ) * 1.5
     return {"result": prediction}
 
 
 @app.exception_handler(404)
 async def custom_404_handler(request, __):
-    return templates.TemplateResponse("404.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="error_page.html", context={"error": "Страница не найдена"})
+
+
+@app.exception_handler(500)
+async def custom_500_handler(request, __):
+    return templates.TemplateResponse(request=request, name="error_page.html", context={"error": "Ошибка в работе сервиса"})
