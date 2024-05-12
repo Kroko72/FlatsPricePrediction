@@ -23,7 +23,7 @@
                 <div class="input-group" style="width: 45%; float: left">
                     <label class="input-group-text" for="cityForm">Город: &nbsp&nbsp&nbsp&nbsp</label>
                     <select class="form-select" id="cityForm" name="city">
-                        <option selected>{{city}}</option>
+                        <option selected>{{city.capitalize()}}</option>
                     </select>
                 </div>
                 <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
@@ -36,7 +36,7 @@
             <div class="input-group mb-4">
                 <div class="input-group" style="width: 45%; float: left">
                     <span class="input-group-text" id="streetForm">Улица: &nbsp&nbsp&nbsp&nbsp</span>
-                    <input type="text" class="form-control" name="street" placeholder="{{street}}" required>
+                    <input type="text" class="form-control" name="street" placeholder="{{street.capitalize()}}" required>
                     <span class="input-group-text" id="houseForm">Дом: </span>
                     <input type="text" class="form-control" name="house" placeholder="{{house}}" required>
                 </div>
@@ -49,7 +49,7 @@
             <div class="input-group mb-4">
                 <div class="input-group" style="width: 45%; float: left">
                     <span class="input-group-text" id="districtForm">Район: &nbsp&nbsp&nbsp&nbsp</span>
-                    <input type="text" class="form-control" name="district" required placeholder={{district}}>
+                    <input type="text" class="form-control" name="district" required placeholder={{district.capitalize()}}>
                 </div>
                 <div class="input-group" style="width: 45%; float: right; position: absolute; right: 0">
                     <span class="input-group-text" id="living_squareForm">Жилая площадь:</span>
