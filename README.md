@@ -7,13 +7,13 @@
 ![alt text](https://github.com/Kroko72/FlatsPricePrediction/blob/main/img_for_readme/main.png?raw=true)
 
 ## Страница с описанием методики рассчёта:
-![alt text](https://github.com/Kroko72/YL-third-project/blob/main/img_for_readme/calc.png?raw=true)
+![alt text](https://github.com/Kroko72/FlatsPricePrediction/blob/main/img_for_readme/calc.png?raw=true)
 
 ## Страничка-документация к API:
-![alt text](https://github.com/Kroko72/YL-third-project/blob/main/img_for_readme/api.png?raw=true)
-![alt text](https://github.com/Kroko72/YL-third-project/blob/main/img_for_readme/api1.png?raw=true)
-![alt text](https://github.com/Kroko72/YL-third-project/blob/main/img_for_readme/api2.png?raw=true)
-![alt text](https://github.com/Kroko72/YL-third-project/blob/main/img_for_readme/api3.png?raw=true)
+![alt text](https://github.com/Kroko72/FlatsPricePrediction/blob/main/img_for_readme/api.png?raw=true)
+![alt text](https://github.com/Kroko72/FlatsPricePrediction/blob/main/img_for_readme/api1.png?raw=true)
+![alt text](https://github.com/Kroko72/FlatsPricePrediction/blob/main/img_for_readme/api2.png?raw=true)
+![alt text](https://github.com/Kroko72/FlatsPricePrediction/blob/main/img_for_readme/api3.png?raw=true)
 
 
 
